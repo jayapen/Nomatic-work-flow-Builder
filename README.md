@@ -1,16 +1,51 @@
-# React + Vite
+# Nomatic Workflow Builder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Nomatic Workflow Builder is a visual workflow designer built with **React**, **Vite**, and **React Flow**, following a **ViewModel architecture**.
 
-Currently, two official plugins are available:
+It lets you:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Visually design workflows on a canvas using nodes and connections.
+- Represent workflows as a **backend-ready JSON definition**.
+- Copy this JSON and use it as the **contract for a future workflow engine**.
 
-## React Compiler
+> ⚠️ **Note:** The backend workflow engine is **not implemented yet**.  
+> This project currently focuses on the **frontend designer** and the **shape of the JSON** that a backend engine can later interpret and execute.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🎯 Goals
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Provide a simple and intuitive UI to design workflows.
+- Generate a **clear, stable JSON format** that describes:
+  - Trigger
+  - Steps
+  - Execution order (via `next` links)
+- Keep the core architecture modular so:
+  - The workflow builder UI can evolve independently.
+  - A backend execution engine can be added later without breaking the contract.
+
+---
+
+## 🧱 High-Level Architecture
+
+The app is structured into:
+
+- `workflow/WorkflowBuilder.jsx` – Composition root for the workflow UI.
+- `workflow/viewModels/useWorkflowViewModel.js` – ViewModel hook controlling state and behavior.
+- `workflow/components/` – Presentation components:
+  - `WorkflowNode.jsx` – Custom node with delete capabilities.
+  - `WorkflowToolbar.jsx` – Top control bar (add/reset steps).
+  - `WorkflowJsonPanel.jsx` – Right-side panel showing generated JSON + copy button.
+
+```text
+src/
+  App.jsx
+  index.css
+  workflow/
+    WorkflowBuilder.jsx
+    /viewModels
+      useWorkflowViewModel.js
+    /components
+      WorkflowNode.jsx
+      WorkflowToolbar.jsx
+      WorkflowJsonPanel.jsx
